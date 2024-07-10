@@ -121,7 +121,12 @@ for i in range(num_image):
     output_dir = args.result_dir + image_path[len(args.images_dir):image_path.rfind('/')]
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    save_path = output_dir + '/' + image_name + '.png'
+
+    # 拼接保存路径并创建
+    save_path = os.path.join(output_dir, image_name + '.png')
+
+    # 确保保存路径存在并保存图像
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     Image.fromarray(((pred_alpha * 255).astype('uint8')), mode='L').save(save_path)
 
 print("Total mean mad ", mean_mad/num_image, " mean mse ", mean_mse/num_image, " mean grad ", \
